@@ -27,18 +27,24 @@ namespace com.supinfo.appOpenWeather
     {
         public MainPage()
         {
-
             this.InitializeComponent();
             this.LoadCountrisTask();
-
+            this.InitVisibility(Visibility.Collapsed);
+            
         }
 
         private async void ButonSearchLatitudeLongitude_OnClick(object sender, RoutedEventArgs e)
         {
+            this.InitVisibility(Visibility.Collapsed);
             try
             {
-                DataContext = await OpenWeatherViewModel.GetWeatherAsync(((ComboBoxItem)ComboBoxCountry.SelectedItem).Tag.ToString(), this.TextBoxPostalCode.Text);
-
+                var data = await OpenWeatherViewModel.GetWeatherAsync(((ComboBoxItem) ComboBoxCountry.SelectedItem).Tag.ToString(), this.TextBoxPostalCode.Text); 
+                data.ForecastViewModel =  await ForecastViewModel.GetForecastAsync(((ComboBoxItem)ComboBoxCountry.SelectedItem).Tag.ToString(), this.TextBoxPostalCode.Text);
+                DataContext = data;
+                 
+                this.InitVisibility(Visibility.Visible);
+               
+                
             }
             catch (System.Net.Http.HttpRequestException exception)
             {
@@ -47,15 +53,32 @@ namespace com.supinfo.appOpenWeather
 #endif
             }
         }
-         
+
         private async void LoadCountrisTask()
         {
             var l = await OpenWeatherViewModel.GetCountriesAsync();
             foreach (var x in l.OrderBy(y => y.Value))
             {
-                this.ComboBoxCountry.Items.Add(new ComboBoxItem { Tag = x.Key, Content = x.Value });
+                this.ComboBoxCountry.Items.Add(new ComboBoxItem {Tag = x.Key, Content = x.Value});
             }
             this.ComboBoxCountry.IsTextSearchEnabled = true;
+        }
+
+        private void InitVisibility(Visibility visibility )
+        {
+            this.TextBlockMainTemp.Visibility = visibility;
+            this.TextBlockSunrise.Visibility = visibility;
+            this.TextBlockSunset.Visibility = visibility;
+            this.TextBlockTempMax.Visibility = visibility;
+            this.TextBlockTempMin.Visibility = visibility;
+            this.TextBlockWind.Visibility = visibility;
+            this.TextBlockHumidity.Visibility = visibility;
+
+            this.IMGSunrise.Visibility = visibility;
+            this.IMGSunset.Visibility = visibility;
+            this.IMGHumidity.Visibility = visibility;
+            this.IMGIconOpenWeather.Visibility = visibility;
+            this.IMGWind.Visibility = visibility;
         }
     }
 }

@@ -9,14 +9,17 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Background;
 using com.supinfo.appOpenWeather.Annotations;
 using Newtonsoft.Json;
-using com.supinfo.appOpenWeather.Model;
+using com.supinfo.appOpenWeather.Model.CurrentWeather;
+using City = com.supinfo.appOpenWeather.Model.CurrentWeather.City;
+using Coord = com.supinfo.appOpenWeather.Model.CurrentWeather.Coord;
+using Weather = com.supinfo.appOpenWeather.Model.CurrentWeather.Weather;
 
 namespace com.supinfo.appOpenWeather.ViewModel
 {
     public class OpenWeatherViewModel : INotifyPropertyChanged
-    {
+    {   
         private static OpenWeather _openWeather;
-
+      
         public static OpenWeather OpenWeather
         {
             get
@@ -29,8 +32,10 @@ namespace com.supinfo.appOpenWeather.ViewModel
             }
             set => _openWeather = value;
         }
-        private static string appid = "f020dbbfc3159dabd3999d332a68877f";
 
+
+        private static string appid = "f020dbbfc3159dabd3999d332a68877f";
+        
         public int Id
         {
             get => OpenWeather.Id;
@@ -104,6 +109,11 @@ namespace com.supinfo.appOpenWeather.ViewModel
             set => NotifyPropertyChanged(ref _openWeather.Clouds, value);
         }
 
+        public City City
+        {
+            get => _openWeather.City;
+            set => NotifyPropertyChanged(ref _openWeather.City, value);
+        }
 
         public Sys Sys
         {
@@ -116,6 +126,9 @@ namespace com.supinfo.appOpenWeather.ViewModel
             get => _openWeather.Countries;
             set => NotifyPropertyChanged(ref _openWeather.Countries, value);
         }
+
+        public ForecastViewModel ForecastViewModel { get; set; }
+
 
         public OpenWeatherViewModel()
         {
@@ -139,15 +152,17 @@ namespace com.supinfo.appOpenWeather.ViewModel
 
         public static Task<OpenWeatherViewModel> GetWeatherAsync(string country, string postalCode) => Task.Run(async () =>
         {
-            var url = String.Format("http://api.openweathermap.org/data/2.5/weather?zip={0},{1}&appid={2}", postalCode, country, appid);
+            // Loading CurrentWeather
+            var url = String.Format("http://api.openweathermap.org/data/2.5/weather?zip={0},{1}&appid={2}&units=metric", postalCode, country, appid);
             HttpClient client = new HttpClient();
 
             postalCode = await client.GetStringAsync(url);
 
-            OpenWeatherViewModel json = JsonConvert.DeserializeObject<OpenWeatherViewModel>(postalCode);
-
+            var json = JsonConvert.DeserializeObject<OpenWeatherViewModel>(postalCode);
             return json;
         });
+
+        
 
         public static Task<Dictionary<string, string>> GetCountriesAsync() => Task.Run(async () =>
         {

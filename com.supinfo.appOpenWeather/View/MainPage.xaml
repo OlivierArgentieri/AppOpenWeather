@@ -7,44 +7,90 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid > 
+    <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="800" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="50px"/>
+            <RowDefinition Height="50px" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Column="0" Grid.Row="0" Name="Panel" Margin="0,0,0,0" >
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="100px"/>
-                    <ColumnDefinition Width="500px"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="200px"/>
-                    <RowDefinition Height="500px"/>
-                </Grid.RowDefinitions>
-            </Grid>
+        <RelativePanel Name="RelativePanel_1_1" Grid.Column="1" Grid.Row="1"  Margin="0,0,0,0">
 
-            <RelativePanel Grid.Column="1" Grid.Row="1" Name="content" Margin="0,0,0,0">
-                <TextBlock Name="test"  Text="{Binding Name}"/>
-                
-            </RelativePanel>
+            <TextBlock Name="TextBlockMainTemp" RelativePanel.AlignHorizontalCenterWithPanel="True" Margin="0,35,0,0">
+                <Run Text="{Binding Main.Temp}" FontSize="50px" />
+                <Run Text="°C" FontSize="50px" />
+            </TextBlock>
+            <TextBlock Name="TextBlockNameCity" Text="{Binding Name}" RelativePanel.Below="TextBlockMainTemp"
+                       RelativePanel.AlignHorizontalCenterWithPanel="True" />
+
+            <Image Name="IMGIconOpenWeather" Width="75px" RelativePanel.Below="TextBlockMainDescription"
+                   RelativePanel.AlignHorizontalCenterWithPanel="True" Margin="15,15,0,0">
+                <Image.Source>
+                    <BitmapImage UriSource="{Binding Weather[0].IconUrl}" />
+                </Image.Source>
+            </Image>
+
+            <TextBlock Name="TextBlockTempMax" RelativePanel.AlignVerticalCenterWith="TextBlockMainTemp"
+                       RelativePanel.RightOf="TextBlockMainTemp" Margin="50,0,0,0">
+                <Run Text="Max temperature : " />
+                <Run Text="{Binding Main.Temp_Max}" />
+                <Run Text="°C" />
+            </TextBlock>
+            <TextBlock Name="TextBlockTempMin" RelativePanel.RightOf="TextBlockMainTemp" Margin="50, 0,0,0"
+                       RelativePanel.Below="TextBlockTempMax">
+                <Run Text="Min temperature : " />
+                <Run Text="{Binding Main.Temp_Min}" />
+                <Run Text="°C" />
+            </TextBlock>
             
+            <TextBlock Name="TextBlockMainDescription" Text="{Binding Weather[0].Description}" RelativePanel.Below="TextBlockNameCity" RelativePanel.AlignHorizontalCenterWith="TextBlockNameCity" Margin="25,0,0,0"/>
 
-        </StackPanel>
+        </RelativePanel>
+        
+        <RelativePanel Name="RelativePanel_2_1" Grid.Column="2" Grid.Row="1">
+            <Image Name="IMGSunrise" Source="../Assets/sunrise.png" Width="45px" Margin="15,15,0,0" />
+            <Image Name="IMGSunset" Source="../Assets/sunset.png" Width="45px" RelativePanel.Below="IMGSunrise"
+                   RelativePanel.AlignRightWith="IMGSunrise" Margin="0,15,0,0" />
+            <Image Name="IMGHumidity" Source="../Assets/rain.png" Width="45px" RelativePanel.Below="IMGSunset"
+                   RelativePanel.AlignRightWith="IMGSunrise" Margin="0,15,0,0" />
+            <Image Name="IMGWind" Source="../Assets/wind.png" Width="45px" RelativePanel.Below="IMGHumidity"
+                   RelativePanel.AlignRightWith="IMGSunrise" Margin="0,15,0,0" />
+            <TextBlock Name="TextBlockSunrise" Text="{Binding Sys.SunriseDateTime }" RelativePanel.RightOf="IMGSunrise"
+                       RelativePanel.AlignVerticalCenterWith="IMGSunrise" Margin="15,0,0,0" />
+            <TextBlock Name="TextBlockSunset" Text="{Binding Sys.SunsetDateTime }" RelativePanel.RightOf="IMGSunset"
+                       RelativePanel.AlignVerticalCenterWith="IMGSunset" Margin="15,0,0,0" />
+            <TextBlock Name="TextBlockHumidity" RelativePanel.RightOf="IMGHumidity" RelativePanel.AlignVerticalCenterWith="IMGHumidity" Margin="15,0,0,0" >
+                <Run Text="{Binding Main.Humidity}"/>
+                <Run Text=" %"/>
+            </TextBlock>
+            <TextBlock Name="TextBlockWind" RelativePanel.RightOf="IMGWind"
+                       RelativePanel.AlignVerticalCenterWith="IMGWind" Margin="15,0,0,0" >
+                <Run Text="{Binding Wind.Speed}" />
+                <Run Text=" m/s" />
+            </TextBlock>
+        </RelativePanel>
 
-        <RelativePanel Grid.Column="0" Grid.Row="1" Margin="0,0,0,0 ">
-            <TextBlock Text="Postal Code : " Name="TextBlockPostalCode" Margin="10, 15, 0, 0"/>
-            <TextBox Width="150px"  RelativePanel.RightOf="TextBlockPostalCode" Margin="10, 10, 0, 0" Name="TextBoxPostalCode"/>
+        <RelativePanel Name="RelativePanel_1_2" Grid.Column="1" Grid.Row="2" Width="auto" Height="auto">
+            <TextBlock Text="Postal Code : " Name="TextBlockPostalCode" Margin="100,15,0,0" />
+            <TextBox Width="150px" RelativePanel.RightOf="TextBlockPostalCode" Margin="10, 10, 0, 0"
+                     Name="TextBoxPostalCode" />
 
-            <TextBlock Text="Country : " Name="TextBlockLatitude" Margin="10, 15, 0, 0" RelativePanel.RightOf="TextBoxPostalCode"/>
-             <ComboBox Name="ComboBoxCountry" RelativePanel.RightOf="TextBlockLatitude"  Margin="10, 10, 0, 0" Width="100px"/>
-            <Button Name="ButonSearchLatitudeLongitudet" Click="ButonSearchLatitudeLongitude_OnClick" Width="100"  Height="33"  RelativePanel.RightOf="ComboBoxCountry" Margin="15,10,0,0" Content="OK"/>
+            <TextBlock Text="Country : " Name="TextBlockCountry" Margin="10, 15, 0, 0"
+                       RelativePanel.RightOf="TextBoxPostalCode" />
+            <ComboBox Name="ComboBoxCountry" RelativePanel.RightOf="TextBlockCountry" Margin="10, 10, 0, 0"
+                      Width="150px" />
+            <Button Name="ButonSearchLatitudeLongitudet" Click="ButonSearchLatitudeLongitude_OnClick" Width="100"
+                    Height="33" RelativePanel.RightOf="ComboBoxCountry" Margin="15,10,0,0" Content="Find" />
+        </RelativePanel>
+
+        <RelativePanel>
+            <ListView ></ListView>
         </RelativePanel>
     </Grid>
 

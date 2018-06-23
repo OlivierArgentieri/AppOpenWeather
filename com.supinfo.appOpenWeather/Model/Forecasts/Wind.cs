@@ -4,19 +4,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace com.supinfo.appOpenWeather.Model
+namespace com.supinfo.appOpenWeather.Model.Forecasts
 {
     public class Wind
     {
         public float Speed { get; set; }
         public float Deg { get; set; }
-        public float Gust { get; set; }
 
-        public Wind(float speed, float deg, float gust)
+        public Wind(float speed, float deg)
         {
-            this.Speed = speed;
-            this.Deg = deg;
-            this.Gust = gust;
+            Speed = speed;
+            Deg = deg;
+        }
+
+        public Wind()
+        {
         }
     }
 }

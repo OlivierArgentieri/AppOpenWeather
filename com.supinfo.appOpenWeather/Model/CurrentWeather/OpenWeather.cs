@@ -10,7 +10,7 @@ using com.supinfo.appOpenWeather.Annotations;
 using com.supinfo.appOpenWeather.ViewModel;
 using Newtonsoft.Json;
 
-namespace com.supinfo.appOpenWeather.Model
+namespace com.supinfo.appOpenWeather.Model.CurrentWeather
 {
     public class OpenWeather
     {
@@ -25,9 +25,11 @@ namespace com.supinfo.appOpenWeather.Model
         private List<Weather> _weather;
         private Main _main;
         private Wind _wind;
+        private City _city;
         private Clouds _clouds;
         private Sys _sys;
         private Dictionary<string, string> _countries;
+        private Forecasts.Forecasts _forecasts;
         #endregion
         
         #region Propriete
@@ -42,11 +44,13 @@ namespace com.supinfo.appOpenWeather.Model
         public ref Main Main => ref _main;
         public ref Wind Wind => ref _wind;
         public ref Clouds Clouds => ref _clouds;
+        public ref City City => ref _city;
         public ref Sys Sys => ref _sys;
         public ref Dictionary<string, string> Countries => ref _countries;
+        public ref Forecasts.Forecasts Forecasts => ref _forecasts;
         #endregion
 
-        public OpenWeather(int id, string name, int cod, string @base, string visibility, string dt, Coord coord, List<Weather> weather, Main main, Wind wind, Clouds clouds, Sys sys, Dictionary<string, string> countries)
+        public OpenWeather(int id, string name, int cod, string @base, string visibility, string dt, Coord coord, List<Weather> weather, Main main, Wind wind, Clouds clouds, City city, Sys sys, Dictionary<string, string> countries)
         {
             this._id = id;
             this.Name = name;
@@ -58,6 +62,7 @@ namespace com.supinfo.appOpenWeather.Model
             this.Weather = weather;
             this.Main = main;
             this.Wind = wind;
+            this.City = city;
             this.Clouds = clouds;
             this.Sys = sys;
             this.Countries = countries;
@@ -80,6 +85,7 @@ namespace com.supinfo.appOpenWeather.Model
             this.Weather = weather.Weather;
             this.Main = weather.Main;
             this.Wind = weather.Wind;
+            this.City = weather.City;
             this.Clouds = weather.Clouds;
             this.Sys = weather.Sys;
         }
