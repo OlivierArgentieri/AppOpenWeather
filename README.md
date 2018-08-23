@@ -1,18 +1,16 @@
-Vichy Location
+AppOpenWeather
 ========================
 
-Projet de gestion de location d'appartement
+Projet d'étude
 
 Description
 --------------
 
-Création d'une plateforme avec Admin pour ajout, suivi des locations.
-
-Projet développé en Symfony3
+Création d'une application de météo avec appel sur les api d'OpenWeatherMap.  
+Ce projet m'a permis d'avoir une approche de l'UWP.
 
 ## Créé avec 
 
-* [Bootstrap v4](https://getbootstrap.com/) - Open source toolkit for developing with HTML, CSS, and JS.
-* [jQuery](https://jquery.com/) - A fast, small, and feature-rich JavaScript library. 
-* [FontAwesome v5](https://fontawesome.com/) - Vector icons and social logos.
-* [Symfony 3](http://symfony.com/what-is-symfony) - The leading PHP framework to create websites and web applications.
+* [OpenWeatherMap](https://openweathermap.org/current) - API pour l'accés aux données météo en temp réél.
+* [UWP](https://docs.microsoft.com/en-us/windows/uwp/design/basics/design-and-ui-intro) - Plateforme Windows Universelle (UWP). 
+* [Visual Studio](https://visualstudio.microsoft.com/fr/?rr=https%3A%2F%2Fwww.google.fr%2F) - Environnement de développement intégré (IDE) Visual Studio.
